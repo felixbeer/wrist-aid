@@ -26,7 +26,7 @@ export class AppController {
     description: 'audio file to transcribe',
     type: FileUploadDto,
   })
-  test(@UploadedFile() file: FileUploadDto) {
-    return this.whisperService.transcribe(file.file);
+  test(@UploadedFile() file: Express.Multer.File) {
+    return this.whisperService.transcribe(file);
   }
 }
