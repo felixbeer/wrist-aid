@@ -1,9 +1,14 @@
-import { Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { OpenaiService } from './services/openai.service';
-import { ApiBody, ApiConsumes, ApiProperty } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TranslationService } from './services/translation.service';
+
+export class TranslationDto {
+  @ApiProperty({ type: String })
+  text: string;
+}
 
 export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
@@ -31,7 +36,22 @@ export class AppController {
     description: 'audio file to transcribe',
     type: FileUploadDto,
   })
-  test(@UploadedFile() file: Express.Multer.File) {
-    return this.whisperService.transcribe(file);
+  async test(@UploadedFile() file: Express.Multer.File) {
+    const result = await this.whisperService.transcribe(file);
+    return result;
+  }
+
+  @Post('translate')
+  @ApiBody({
+    type: TranslationDto,
+  })
+  @ApiOkResponse()
+  @ApiBadRequestResponse()
+  async translate(@Body('text') text?: string): Promise<string> {
+    if (!text) {
+      throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.translationService.translate(text);
   }
 }
