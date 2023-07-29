@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Readable } from 'stream';
 import * as FormData from 'form-data';
 
 type Return = {
@@ -9,7 +8,7 @@ type Return = {
 };
 
 @Injectable()
-export class WhisperService {
+export class OpenaiService {
   constructor(private configService: ConfigService) {}
 
   async transcribe(file: Express.Multer.File): Promise<string> {

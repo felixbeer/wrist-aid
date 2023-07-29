@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { WhisperService } from './services/whisper.service';
+import { OpenaiService } from './services/openai.service';
 import { ApiBody, ApiConsumes, ApiProperty } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -19,7 +19,7 @@ export class FileUploadDto {
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly whisperService: WhisperService,
+    private readonly whisperService: OpenaiService,
   ) {}
 
   @Get()
