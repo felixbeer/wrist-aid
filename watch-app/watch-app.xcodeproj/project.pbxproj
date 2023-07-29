@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DCE8AC1B2A75390600406CDA /* watch-app Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = DCE8AC1A2A75390600406CDA /* watch-app Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DC2A3B762A75962B0053F194 /* CallList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2A3B752A75962B0053F194 /* CallList.swift */; };
+		DC2A3B782A7596790053F194 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2A3B772A7596790053F194 /* Call.swift */; };
+		DC33EBC12A754D4C007EEAAD /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC33EBC02A754D4C007EEAAD /* AudioRecorder.swift */; };
+		DC91251D2A7574ED00463A57 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DC91251C2A7574ED00463A57 /* Alamofire */; };
+		DC9125202A75753900463A57 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DC91251F2A75753900463A57 /* SwiftyJSON */; };
+		DC9125222A75866000463A57 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9125212A75866000463A57 /* RecordButton.swift */; };
+		DCE8AC1B2A75390600406CDA /* Wrist Aid.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = DCE8AC1A2A75390600406CDA /* Wrist Aid.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DCE8AC202A75390600406CDA /* watch_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8AC1F2A75390600406CDA /* watch_appApp.swift */; };
 		DCE8AC222A75390600406CDA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8AC212A75390600406CDA /* ContentView.swift */; };
 		DCE8AC242A75390700406CDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCE8AC232A75390700406CDA /* Assets.xcassets */; };
@@ -31,7 +37,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				DCE8AC1B2A75390600406CDA /* watch-app Watch App.app in Embed Watch Content */,
+				DCE8AC1B2A75390600406CDA /* Wrist Aid.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,8 +45,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DC2A3B752A75962B0053F194 /* CallList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallList.swift; sourceTree = "<group>"; };
+		DC2A3B772A7596790053F194 /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		DC33EBC02A754D4C007EEAAD /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		DC9125212A75866000463A57 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		DCE8AC142A75390600406CDA /* watch-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "watch-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCE8AC1A2A75390600406CDA /* watch-app Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "watch-app Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCE8AC1A2A75390600406CDA /* Wrist Aid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wrist Aid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCE8AC1F2A75390600406CDA /* watch_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watch_appApp.swift; sourceTree = "<group>"; };
 		DCE8AC212A75390600406CDA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DCE8AC232A75390700406CDA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,6 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC9125202A75753900463A57 /* SwiftyJSON in Frameworks */,
+				DC91251D2A7574ED00463A57 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				DCE8AC142A75390600406CDA /* watch-app.app */,
-				DCE8AC1A2A75390600406CDA /* watch-app Watch App.app */,
+				DCE8AC1A2A75390600406CDA /* Wrist Aid.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,10 +90,14 @@
 		DCE8AC1E2A75390600406CDA /* watch-app Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				DC9125212A75866000463A57 /* RecordButton.swift */,
 				DCE8AC1F2A75390600406CDA /* watch_appApp.swift */,
 				DCE8AC212A75390600406CDA /* ContentView.swift */,
+				DC33EBC02A754D4C007EEAAD /* AudioRecorder.swift */,
 				DCE8AC232A75390700406CDA /* Assets.xcassets */,
 				DCE8AC252A75390700406CDA /* Preview Content */,
+				DC2A3B752A75962B0053F194 /* CallList.swift */,
+				DC2A3B772A7596790053F194 /* Call.swift */,
 			);
 			path = "watch-app Watch App";
 			sourceTree = "<group>";
@@ -127,8 +143,12 @@
 			dependencies = (
 			);
 			name = "watch-app Watch App";
+			packageProductDependencies = (
+				DC91251C2A7574ED00463A57 /* Alamofire */,
+				DC91251F2A75753900463A57 /* SwiftyJSON */,
+			);
 			productName = "watch-app Watch App";
-			productReference = DCE8AC1A2A75390600406CDA /* watch-app Watch App.app */;
+			productReference = DCE8AC1A2A75390600406CDA /* Wrist Aid.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -158,6 +178,10 @@
 				Base,
 			);
 			mainGroup = DCE8AC0D2A75390600406CDA;
+			packageReferences = (
+				DC91251B2A7574ED00463A57 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DC91251E2A75753900463A57 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = DCE8AC152A75390600406CDA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -192,6 +216,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC9125222A75866000463A57 /* RecordButton.swift in Sources */,
+				DC2A3B782A7596790053F194 /* Call.swift in Sources */,
+				DC2A3B762A75962B0053F194 /* CallList.swift in Sources */,
+				DC33EBC12A754D4C007EEAAD /* AudioRecorder.swift in Sources */,
 				DCE8AC222A75390600406CDA /* ContentView.swift in Sources */,
 				DCE8AC202A75390600406CDA /* watch_appApp.swift in Sources */,
 			);
@@ -328,16 +356,16 @@
 				DEVELOPMENT_TEAM = AV49LHUWT3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "watch-app";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone stream is sent to the dispatcher";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wrist-aid.watch-app.watchkitapp";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Wrist Aid";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -358,16 +386,16 @@
 				DEVELOPMENT_TEAM = AV49LHUWT3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "watch-app";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone stream is sent to the dispatcher";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.wrist-aid.watch-app.watchkitapp";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Wrist Aid";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -442,6 +470,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DC91251B2A7574ED00463A57 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		DC91251E2A75753900463A57 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DC91251C2A7574ED00463A57 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC91251B2A7574ED00463A57 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DC91251F2A75753900463A57 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC91251E2A75753900463A57 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DCE8AC0E2A75390600406CDA /* Project object */;
 }

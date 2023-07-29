@@ -10,12 +10,29 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, david!")
+            Group {
+                    Text("Wrist")
+                        .fontWeight(Font.Weight.bold)
+                        .foregroundColor(Color.accentColor) +
+                    Text("Aid")
+                    .fontWeight(Font.Weight.bold)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(EdgeInsets(top: 11, leading: 11, bottom: 0, trailing: 0))
+            
+            TabView {
+                CallList()
+                    .frame(maxHeight: .infinity)
+
+                CallList()
+                    .frame(maxHeight: .infinity)
+            }.tabViewStyle(.page(indexDisplayMode: .always))
+            
+            RecordButton()
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing:0))
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea(.all)
     }
 }
 
@@ -24,3 +41,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
