@@ -9,8 +9,7 @@ type Return = {
 
 @Injectable()
 export class OpenaiService {
-  constructor(private configService: ConfigService) {
-  }
+  constructor(private configService: ConfigService) {}
 
   async transcribe(file: Express.Multer.File): Promise<string> {
     const formData = new FormData();
