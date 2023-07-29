@@ -6,7 +6,8 @@ import { WhisperService } from './services/whisper.service';
 
 @Module({
   imports: [ConfigModule.forRoot({
-    isGlobal: true
+    isGlobal: true,
+    envFilePath: '.env'
   })],
   controllers: [AppController],
   providers: [AppService, WhisperService],

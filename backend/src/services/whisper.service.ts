@@ -14,21 +14,18 @@ export class WhisperService {
 
   async transcribe(file: Express.Multer.File): Promise<string> {
     const formData = new FormData();
-    const audioStream = file.buffer;
 
-    console.log(audioStream);
-
-    formData.append('file', audioStream, {
-      filename: file.filename,
+    formData.append('model', 'whisper-1');
+    formData.append('file', file.buffer, {
+      filename: file.originalname,
       contentType: file.mimetype,
     });
-    formData.append('model', 'whisper-1');
     formData.append('response_format', 'json');
 
     const config: AxiosRequestConfig<FormData> = {
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-        Authorization: `Bearer ${this.configService.get<string>(
+        'Content-Type': `multipart/form-data;`,
+        Authorization: `Bearer ${await this.configService.get<string>(
           'OPENAI_API_KEY',
         )}`,
       },
@@ -42,11 +39,9 @@ export class WhisperService {
       )
       .then(
         (value) => {
-          console.log(value);
           return value.data.text;
         },
         (error) => {
-          console.log(error);
           return error;
         },
       );
