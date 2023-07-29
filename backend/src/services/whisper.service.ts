@@ -14,7 +14,9 @@ export class WhisperService {
 
   async transcribe(file: Express.Multer.File): Promise<string> {
     const formData = new FormData();
-    const audioStream = Readable.from(file.buffer);
+    const audioStream = file.buffer;
+
+    console.log(audioStream);
 
     formData.append('file', audioStream, {
       filename: file.filename,
@@ -32,11 +34,21 @@ export class WhisperService {
       },
     };
 
-    const response = await axios.post<
-      Return,
-      AxiosResponse<Return, FormData>,
-      FormData
-    >('https://api.openai.com/v1/audio/transcriptions', formData, config);
-    return response.data.text;
+    return await axios
+      .post<Return, AxiosResponse<Return, FormData>, FormData>(
+        'https://api.openai.com/v1/audio/transcriptions',
+        formData,
+        config,
+      )
+      .then(
+        (value) => {
+          console.log(value);
+          return value.data.text;
+        },
+        (error) => {
+          console.log(error);
+          return error;
+        },
+      );
   }
 }
