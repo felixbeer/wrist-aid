@@ -1,0 +1,63 @@
+/* src/styles.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.green-marker {
+    background-color: #32cd32;
+    font-weight: bold;
+    color: white;
+    padding-left: 6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    //shadow
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    cursor: pointer;
+} 
+
+.yellow-marker {
+    background-color: #FFFF00;
+    font-weight: bold;
+    color: black;
+    padding-left: 6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    //shadow
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    cursor: pointer;
+} 
+
+.red-marker {
+    background-color: #ff6961;
+    font-weight: bold;
+    color: white;
+    padding-left: 6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    //shadow
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    cursor: pointer;
+} 
+
+/* Overwrite the default to keep the scrollbar always visible */
+::-webkit-scrollbar {
+    width:16px
+}
+
+
+::-webkit-scrollbar-track:hover {
+    background-color:#f4f4f4;
+}
+::-webkit-scrollbar-thumb {
+    background-color:#babac0;
+    border-radius:16px;
+    border:5px solid #fff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color:#a0a0a5;
+    border:4px solid #f4f4f4
+}
