@@ -2,15 +2,17 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { WhisperService } from './services/whisper.service';
+import { OpenaiService } from './services/openai.service';
 import { TranslationService } from './services/translation.service';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-  })],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+  ],
   controllers: [AppController],
-  providers: [AppService, WhisperService, TranslationService],
+  providers: [AppService, OpenaiService, TranslationService],
 })
-export class AppModule {
-}
+export class AppModule {}

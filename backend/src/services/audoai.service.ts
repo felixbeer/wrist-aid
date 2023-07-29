@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Readable } from 'stream';
 import * as FormData from 'form-data';
 
 type Return = {
@@ -9,27 +8,24 @@ type Return = {
 };
 
 @Injectable()
-export class WhisperService {
+export class AudoAiService {
   constructor(private configService: ConfigService) {}
 
-  async transcribe(file: Express.Multer.File): Promise<string> {
+  async removeNoise(file: Express.Multer.File): Promise<string> {
     const formData = new FormData();
-    const audioStream = file.buffer;
 
-    console.log(audioStream);
-
-    formData.append('file', audioStream, {
-      filename: file.filename,
+    formData.append('model', 'whisper-1');
+    formData.append('file', file.buffer, {
+      filename: file.originalname,
       contentType: file.mimetype,
     });
-    formData.append('model', 'whisper-1');
     formData.append('response_format', 'json');
 
     const config: AxiosRequestConfig<FormData> = {
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
+        'Content-Type': `multipart/form-data;`,
         Authorization: `Bearer ${await this.configService.get<string>(
-          'OPENAI_API_KEY',
+          'AUDOAI_API_KEY',
         )}`,
       },
     };
@@ -42,11 +38,9 @@ export class WhisperService {
       )
       .then(
         (value) => {
-          console.log(value);
           return value.data.text;
         },
         (error) => {
-          console.log(error);
           return error;
         },
       );
