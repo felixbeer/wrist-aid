@@ -28,7 +28,7 @@ export class WhisperService {
     const config: AxiosRequestConfig<FormData> = {
       headers: {
         'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-        Authorization: `Bearer ${this.configService.get<string>(
+        Authorization: `Bearer ${await this.configService.get<string>(
           'OPENAI_API_KEY',
         )}`,
       },

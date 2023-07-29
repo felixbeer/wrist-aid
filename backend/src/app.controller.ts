@@ -1,9 +1,14 @@
-import { Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { WhisperService } from './services/whisper.service';
-import { ApiBody, ApiConsumes, ApiProperty } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import { TranslationService } from './services/translation.service';
 
+export class TranslationDto {
+  @ApiProperty({ type: String })
+  text: string;
+}
 
 export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
@@ -12,7 +17,8 @@ export class FileUploadDto {
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly whisperService: WhisperService) {}
+  constructor(private readonly appService: AppService, private readonly whisperService: WhisperService, private readonly translationService: TranslationService) {
+  }
 
   @Get()
   getHello(): string {
@@ -28,5 +34,19 @@ export class AppController {
   })
   test(@UploadedFile() file: Express.Multer.File) {
     return this.whisperService.transcribe(file);
+  }
+
+  @Post('translate')
+  @ApiBody({
+    type: TranslationDto,
+  })
+  @ApiOkResponse()
+  @ApiBadRequestResponse()
+  async translate(@Body('text') text?: string): Promise<string> {
+    if (!text) {
+      throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.translationService.translate(text);
   }
 }
