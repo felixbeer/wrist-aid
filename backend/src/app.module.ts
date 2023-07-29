@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { OpenaiService } from './services/openai.service';
 import { TranslationService } from './services/translation.service';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -11,8 +12,10 @@ import { TranslationService } from './services/translation.service';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService, OpenaiService, TranslationService],
 })
-export class AppModule {}
+export class AppModule {
+}
