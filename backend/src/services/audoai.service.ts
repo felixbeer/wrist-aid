@@ -5,6 +5,8 @@ import * as FormData from 'form-data';
 import { OpenaiService } from './openai.service';
 import * as fs from 'fs';
 
+const { Buffer } = require('node:buffer');
+
 enum JobStatusState {
   DOWNLOADING = 'downloading',
   QUEUED = 'queued',
@@ -33,42 +35,46 @@ export class AudoAiService {
   }
 
   async denoiseAudio(file: Express.Multer.File): Promise<string> {
-    // console.log('');
-    // console.log('starting noise removal process');
-    // const fileId = await this.uploadFile(file);
-    // console.log('fileId: ' + fileId);
-    //
-    // const jobId = await this.removeNoise(fileId);
-    // console.log('jobId: ' + jobId);
-    //
-    // let jobFinished = false;
-    // let throttle = false;
-    //
-    // let downloadPath: string;
-    //
-    // while (!jobFinished) {
-    //   throttle = true;
-    //   const jobStatus: JobStatusResponseType = await this.getJobStatus(jobId);
-    //
-    //   if (JobStatusState.FAILED === jobStatus.state) {
-    //     jobFinished = true;
-    //   }
-    //   if (JobStatusState.SUCCEEDED === jobStatus.state) {
-    //     downloadPath = jobStatus.downloadPath;
-    //     jobFinished = true;
-    //   }
-    //   setTimeout(() => (throttle = false), 500);
-    // }
-    const downloadPath =
-      '/dl/artifacts/63c72a0f-8af1-420f-83bd-a0910083c8a9_transcode-out.mp3';
+    console.log('');
+    console.log('starting noise removal process');
+    const fileId = await this.uploadFile(file);
+    console.log('fileId: ' + fileId);
 
-    console.log('finished noise removal process, dowloadLink: ', downloadPath);
+    const jobId = await this.removeNoise(fileId);
+    console.log('jobId: ' + jobId);
+
+    let jobFinished = false;
+    let throttle = false;
+
+    let downloadPath: string;
+
+    while (!jobFinished) {
+      throttle = true;
+      const jobStatus: JobStatusResponseType = await this.getJobStatus(jobId);
+
+      if (JobStatusState.FAILED === jobStatus.state) {
+        jobFinished = true;
+      }
+      if (JobStatusState.SUCCEEDED === jobStatus.state) {
+        downloadPath = jobStatus.downloadPath;
+        jobFinished = true;
+      }
+      setTimeout(() => (throttle = false), 500);
+    }
+
+    console.log('finished noise removal process:', downloadPath);
 
     const denoisedFile = await this.downloadFile(downloadPath);
 
-    await this.openApiService.transcribe(denoisedFile);
+    let writer = fs.createWriteStream(
+      `./uploadedFiles/${new Date().getTime()}.m4a`,
+    );
+    writer.write(denoisedFile, 'binary');
 
-    return 'finished';
+    let text = await this.openApiService.transcribe(file);
+    console.log('Speech to text: ' + text);
+
+    return text;
   }
 
   private async uploadFile(file: Express.Multer.File): Promise<string> {
@@ -108,7 +114,7 @@ export class AudoAiService {
 
     const data = {
       input: fileId,
-      outputExtension: '.mp3',
+      outputExtension: '.m4a',
       noiseReductionAmount: 100,
     };
 
@@ -146,8 +152,8 @@ export class AudoAiService {
 
   private async downloadFile(downloadPath: string): Promise<any> {
     const options: AxiosRequestConfig = {
-      responseType: 'stream',
       headers: {
+        'Content-Type': 'application/octet-stream',
         'x-api-key': this.AUDOAI_API_KEY,
       },
     };
@@ -156,9 +162,7 @@ export class AudoAiService {
       .get(`https://api.audo.ai/v1${downloadPath}`, options)
       .then(
         (response: AxiosResponse) => {
-          const writer = fs.createWriteStream('/uploadedFiles');
-          response.data.pipe(writer);
-          return response;
+          return Buffer.from(response.data);
         },
         (error) => {
           return error;

@@ -16,7 +16,7 @@ export class OpenaiService {
 
     formData.append('model', 'whisper-1');
     formData.append('file', file.buffer, {
-      filename: file.originalname,
+      filename: file.originalname ?? 'name',
       contentType: file.mimetype,
     });
     formData.append('response_format', 'json');
