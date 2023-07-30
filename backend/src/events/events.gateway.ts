@@ -1,6 +1,6 @@
 import {
   ConnectedSocket,
-  MessageBody, OnGatewayConnection, OnGatewayInit,
+  MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway, WebSocketServer,
 } from '@nestjs/websockets';
@@ -8,16 +8,17 @@ import * as ws from 'ws';
 import WebSocket from 'ws';
 
 @WebSocketGateway(3001)
-export class EventsGateway implements OnGatewayInit, OnGatewayConnection {
+export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   private server?: ws.WebSocketServer;
+  private clients: WebSocket[] = [];
 
-  sendNewReport() {
+  sendNewReport(text: string) {
     this.server?.clients.forEach((client: WebSocket) => {
-      client.send({
+      client.send(JSON.stringify({
         type: 'NewReport',
-        data: 'no data',
-      }.toString());
+        data: JSON.stringify({ text }),
+      }));
     });
   }
 
@@ -25,20 +26,19 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection {
   // the 'message' of the socket have to be in the format { "event": "locationUpdate", "data": { ... } }
   // in order to work with @SubscribeMessage
   @SubscribeMessage('locationUpdate')
-  locationUpdate(@MessageBody() data: any) {
+  locationUpdate(@MessageBody() data: any, @ConnectedSocket() ws: WebSocket) {
     console.log(data);
   }
 
-  handleConnection(client: WebSocket, ...args: any[]): any {
-    client.on('message', (data) => {
-      const obj = JSON.parse(data.toString());
+  afterInit(server: ws.WebSocketServer): any {
 
-      if (obj.event === 'locationUpdate') {
-        console.log(obj.data);
-      }
-    });
   }
 
-  afterInit(server: any): any {
+  handleConnection(client: WebSocket, ...args: any[]): any {
+    this.clients.push(client);
+  }
+
+  handleDisconnect(client: WebSocket): any {
+    this.clients = this.clients.filter(ws => ws !== client);
   }
 }

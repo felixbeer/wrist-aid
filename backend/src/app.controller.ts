@@ -4,6 +4,7 @@ import { OpenaiService } from './services/openai.service';
 import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TranslationService } from './services/translation.service';
+import { DatabaseService } from './services/database.service';
 
 export class TranslationDto {
   @ApiProperty({ type: String })
@@ -21,6 +22,7 @@ export class AppController {
     private readonly appService: AppService,
     private readonly whisperService: OpenaiService,
     private readonly translationService: TranslationService,
+    private readonly databaseService: DatabaseService,
   ) {
   }
 
@@ -53,5 +55,19 @@ export class AppController {
     }
 
     return await this.translationService.translate(text);
+  }
+
+  @Post('newReportTest')
+  @ApiBody({
+    type: TranslationDto,
+  })
+  @ApiOkResponse()
+  @ApiBadRequestResponse()
+  sendReportTest(@Body('text') text?: string) {
+    if (!text) {
+      throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
+    }
+
+    this.databaseService.storeReport(text);
   }
 }
