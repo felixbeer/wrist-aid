@@ -9,15 +9,14 @@ type Return = {
 
 @Injectable()
 export class OpenaiService {
-  constructor(private configService: ConfigService) {
-  }
+  constructor(private configService: ConfigService) {}
 
   async transcribe(file: Express.Multer.File): Promise<string> {
     const formData = new FormData();
 
     formData.append('model', 'whisper-1');
     formData.append('file', file.buffer, {
-      filename: file.originalname,
+      filename: file.originalname ?? 'name',
       contentType: file.mimetype,
     });
     formData.append('response_format', 'json');

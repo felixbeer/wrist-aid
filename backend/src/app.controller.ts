@@ -1,10 +1,26 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { OpenaiService } from './services/openai.service';
-import { ApiBadRequestResponse, ApiBody, ApiConsumes, ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiConsumes,
+  ApiOkResponse,
+  ApiProperty,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TranslationService } from './services/translation.service';
 import { DatabaseService } from './services/database.service';
+import { AudoAiService } from './services/audoai.service';
 
 export class TranslationDto {
   @ApiProperty({ type: String })
@@ -20,8 +36,9 @@ export class FileUploadDto {
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly whisperService: OpenaiService,
+    private readonly openAiService: OpenaiService,
     private readonly translationService: TranslationService,
+    private readonly audoAiService: AudoAiService,
     private readonly databaseService: DatabaseService,
   ) {
   }
@@ -39,8 +56,7 @@ export class AppController {
     type: FileUploadDto,
   })
   async test(@UploadedFile() file: Express.Multer.File) {
-    const result = await this.whisperService.transcribe(file);
-    return result;
+    return this.openAiService.transcribe(file);
   }
 
   @Post('translate')
@@ -55,6 +71,18 @@ export class AppController {
     }
 
     return await this.translationService.translate(text);
+  }
+
+  @Post('remove-noise')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'audio file to transcribe',
+    type: FileUploadDto,
+  })
+  removeNoise(@UploadedFile() file: Express.Multer.File) {
+    this.audoAiService.denoiseAudio(file);
+    return 'Your audio is being processed.';
   }
 
   @Post('newReportTest')
