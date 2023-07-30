@@ -26,6 +26,7 @@ struct Call: View {
             .background(Color.gray.opacity(0.1))
 
             Text(report.text)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(3)
                 .padding(EdgeInsets(top: 0, leading: 5, bottom:5, trailing: 5))
         }.background(Color.gray.opacity(0.15))
@@ -64,7 +65,7 @@ struct CallFullScreenModalView: View {
                 Text(report.text)
                     .lineLimit(nil)
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
-                    .frame(maxHeight: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
@@ -130,6 +131,6 @@ struct MapCallFullScreenModalView: View {
 
 struct Call_Previews: PreviewProvider {
     static var previews: some View {
-        Call(report: Report(id: 1, text: "Preview", fileLocation: "/preview"))
+        Call(report: Report(reportId: 1, userId: 1, text: "Preview", fileLocation: "/preview", latitude: 0.0, longitude: 0.0))
     }
 }

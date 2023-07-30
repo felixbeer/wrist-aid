@@ -7,13 +7,14 @@
 
 import SwiftUI
 import SwiftyJSON
+import Alamofire
 
 struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var websocket = Websocket()
     
     init() {
-        // self.periodicallyUpdateLocation();
+        checkUserLogin()
     }
     
     var body: some View {
@@ -41,6 +42,18 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
+    }
+    
+    func checkUserLogin() {
+        print(UserDefaults.standard.integer(forKey: "userId"))
+        if(UserDefaults.standard.integer(forKey: "userId") == 0) {
+            // TODO: Make role selectable
+            AF.request(Configuration.httpURL + "/user/register", method: .post, parameters: ["role": "Paramedic"], encoding: JSONEncoding.default).responseDecodable(of: Register.self) {response in
+                print(response)
+                guard let register = response.value else { return }
+                UserDefaults.standard.set(register.id, forKey: "userId");
+            }
+        }
     }
     
     /*func periodicallyUpdateLocation() {
