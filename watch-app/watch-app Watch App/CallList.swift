@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CallList: View {
+    @ObservedObject var websocket = Websocket()
+    
     var body: some View {
         List {
             Call().listRowInsets(EdgeInsets())

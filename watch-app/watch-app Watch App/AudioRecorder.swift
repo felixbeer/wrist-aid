@@ -48,7 +48,6 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     }
     
     func startRecording() {
-        let documentDirectoryURL: URL;
         audioRecorder?.record();
     }
     
@@ -66,15 +65,16 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         if audioData != nil
         {
             AF.upload(multipartFormData: { (multipartFormData) in
-                multipartFormData.append(audioData!, withName: "audio", fileName: fileName, mimeType: "audio/m4a")
-            }, to: "http://147.46.242.219/addsound.php").responseString { response in
+                multipartFormData.append(audioData!, withName: "file", fileName: fileName, mimeType: "audio/m4a")
+            }, to: Configuration.httpURL+"/remove-noise").responseString { response in
                 if let httpStatusCode = response.response?.statusCode {
                     switch httpStatusCode {
                     case 200:
                         print("Success");
                         break;
                     default:
-                        // TODO: Catch error
+                        print("Error");
+                        print(response)
                         break;
                         
                     }
