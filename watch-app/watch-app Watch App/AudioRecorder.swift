@@ -26,11 +26,8 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
                         if allowed {
                             do{
                                 let settings = [
-                                    AVFormatIDKey:kAudioFormatLinearPCM,
+                                    AVFormatIDKey:kAudioFormatMPEG4AAC,
                                     AVEncoderAudioQualityKey:AVAudioQuality.low.rawValue,
-                                    AVEncoderBitRateKey:64000,
-                                    AVNumberOfChannelsKey:1,
-                                    AVSampleRateKey:16000.0
                                 ] as [String : Any]
                                 self.audioRecorder = try AVAudioRecorder.init(url: self.getFileurl()!, settings: settings);
                                 self.audioRecorder?.delegate = self;

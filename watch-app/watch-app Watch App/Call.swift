@@ -10,12 +10,14 @@ import MapKit
 
 struct Call: View {
     
+    @State var report: Report
+    
     @State var isOpen = false
 
     var body: some View {
         VStack (){
             HStack(){
-                Text("#57")
+                Text("#" + String(report.id))
                     .frame(maxWidth: .infinity,alignment: Alignment.leading)
                     .fontWeight(Font.Weight.semibold)
                 Text("30m")
@@ -23,7 +25,7 @@ struct Call: View {
             .padding(5)
             .background(Color.gray.opacity(0.1))
 
-            Text("Situation report sector south: Fight on rank E. Need stretcher with stretcher support")
+            Text(report.text)
                 .lineLimit(3)
                 .padding(EdgeInsets(top: 0, leading: 5, bottom:5, trailing: 5))
         }.background(Color.gray.opacity(0.15))
@@ -33,11 +35,15 @@ struct Call: View {
                 isOpen = true
             }
             .listRowBackground(Color.clear)
-            .fullScreenCover(isPresented: $isOpen, content: CallFullScreenModalView.init)
+            .fullScreenCover(isPresented: $isOpen) {
+                CallFullScreenModalView(report: report)
+            }
     }
 }
 
 struct CallFullScreenModalView: View {
+    @State var report: Report
+                
     @Environment(\.dismiss) var dismiss
     
     @State var showMap = false
@@ -45,7 +51,7 @@ struct CallFullScreenModalView: View {
     var body: some View {
         VStack (alignment: .leading){
             HStack(){
-                Text("#57")
+                Text("#" + String(report.id))
                     .frame(maxWidth: .infinity,alignment: Alignment.leading)
                     .fontWeight(Font.Weight.semibold)
                 Text("30m")
@@ -55,7 +61,7 @@ struct CallFullScreenModalView: View {
             .cornerRadius(4)
             
             List {
-                Text("Situation report sector south: Fight on rank E. Need stretcher with stretcher support. Situation report sector south: Fight on rank E. Need stretcher with stretcher support. Situation report sector south: Fight on rank E. Need stretcher with stretcher support. Situation report sector south: Fight on rank E. Need stretcher with stretcher support")
+                Text(report.text)
                     .lineLimit(nil)
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5))
                     .frame(maxHeight: .infinity)
@@ -73,10 +79,6 @@ struct CallFullScreenModalView: View {
             }.padding(EdgeInsets(top: 0, leading: 5, bottom: 10, trailing: 5))
         }.frame(maxHeight: .infinity)
             .ignoresSafeArea(.all, edges: .bottom)
-        .contentShape(Rectangle())
-        .onTapGesture {
-            showMap = true
-        }
         .fullScreenCover(isPresented: $showMap, content: MapCallFullScreenModalView.init)
     }
     
@@ -128,6 +130,6 @@ struct MapCallFullScreenModalView: View {
 
 struct Call_Previews: PreviewProvider {
     static var previews: some View {
-        Call()
+        Call(report: Report(id: 1, text: "Preview", fileLocation: "/preview"))
     }
 }
