@@ -1,86 +1,13 @@
 <img src="./docs/header.jpeg" alt="logo" />
 
-# Wrist-Aid
+# Wrist Aid
 
-## Environment Variables
+## Our Concept
 
-Create a `.env` file in the `backend` folder and fill in following API KEYS.
+Clear and effective emergency communication even in the noisiest environments with a hands-free, noise-free Smartwatch App.
 
-```
-OPENAI_API_KEY=...  // API KEY for the OPENAI Services
-AUDOAI_API_KEY=..   // API KEY for the Audo noice-canceling service
-DEEPL_API_KEY=..    // API KEY for the Deepl Translation service (currently optional)
-```
+## Links
 
-## Running the application
-### ./backend 
-```
-npm i
-npm run start:dev
-```
-### ./web-app 
-```
-npm i
-npm start
-```
-
-## WebSockets API
-
-Server Side Messages
-
-**Event**: NewMission
-This event gets sent when the web app assigned a report to a team (over the http endpoint). Its a broadcast event. Therefore every client in the network
-knows who will has to do the task and the team with the same userId knows that they have to do this task.
-
-```javascript
-{ 
-  id: number;
-  reportId: number;
-  userId: number;   // user assigned for this mission
-  done: boolean;    // is mission accomplished?
-  latitude: number;   // location of the user who sent the report
-  longitude: number;
-  text: string;
-  fileLocation: string;
-}
-```
-**Event**: NewReport
-This event gets sent when a user sends a new audio report to the server (over http endpoint). After the audio got noice-canceled and converted into text
-this event gets sent to all clients in the network.
-
-```javascript
-{
-  reportId: number;
-  fileLocation: string;
-  text: string;
-  userId: number;
-  longitude: number;    // location of the user who sent the report
-  latitude: number;
-}
-```
-
-Client Side Events
-
-**Event**: MissionDone
-The client can send this event if he finished his task.
-
-```javascript
-{
-  missionId: number;
-}
-```
-
-**Event**: LocationUpdate
-The client should periodically send this event to update his current position
-
-```javascript
-{
-  id: number; // the id of the user who sends his current position
-  longitude: number;
-  latitude: number;
-}
-```
-
-## HTTP Api
-
-You can find the swagger documentation of the http endpoint on `localhost:3000/api/swagger` after you started the server.
+- [Backend](backend/README.md)
+- [Web-App](web-app/README.md)
+- [Watch-App](watch-app/README.md)

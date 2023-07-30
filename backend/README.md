@@ -1,73 +1,79 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+The backend communicates with OpenAI Whisper, AudoAI and Deepl to offer the best possible speech-to-text and translation experience.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Environment Variables
 
-## Description
+Create a `.env` file in the `backend` folder and fill in following API KEYS.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ yarn install
+```
+OPENAI_API_KEY=...  // API KEY for the OPENAI Services
+AUDOAI_API_KEY=..   // API KEY for the Audo noice-canceling service
+DEEPL_API_KEY=..    // API KEY for the Deepl Translation service (currently optional)
 ```
 
-## Running the app
+## WebSockets API
 
-```bash
-# development
-$ yarn run start
+Server Side Messages
 
-# watch mode
-$ yarn run start:dev
+**Event**: NewMission
+This event gets sent when the web app assigned a report to a team (over the http endpoint). Its a broadcast event. Therefore every client in the network
+knows who will has to do the task and the team with the same userId knows that they have to do this task.
 
-# production mode
-$ yarn run start:prod
+```javascript
+{
+  id: number;
+  reportId: number;
+  userId: number; // user assigned for this mission
+  done: boolean; // is mission accomplished?
+  latitude: number; // location of the user who sent the report
+  longitude: number;
+  text: string;
+  fileLocation: string;
+}
 ```
 
-## Test
+**Event**: NewReport
+This event gets sent when a user sends a new audio report to the server (over http endpoint). After the audio got noice-canceled and converted into text
+this event gets sent to all clients in the network.
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+```javascript
+{
+  reportId: number;
+  fileLocation: string;
+  text: string;
+  userId: number;
+  longitude: number; // location of the user who sent the report
+  latitude: number;
+}
 ```
 
-## Support
+Client Side Events
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Event**: MissionDone
+The client can send this event if he finished his task.
 
-## Stay in touch
+```javascript
+{
+  missionId: number;
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+**Event**: LocationUpdate
+The client should periodically send this event to update his current position
 
-## License
+```javascript
+{
+  id: number; // die id des users der seine aktuelle postion sendet
+  longitude: number;
+  latitude: number;
+}
+```
 
-Nest is [MIT licensed](LICENSE).
+## HTTP Api
+
+You can find the swagger documentation of the http endpoint on `localhost:3000/api/swagger` after you started the server.
+
+## Start the server
+
+To start the server you basically have to move into the `backend` folder and run the `npm run start:dev` command. (Maybe you have to run `npm install` to install the required packages)
