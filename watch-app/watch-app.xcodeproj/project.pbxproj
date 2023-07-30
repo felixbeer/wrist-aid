@@ -16,6 +16,8 @@
 		DCC3BAD22A75BAE7009F6488 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC3BAD12A75BAE7009F6488 /* LocationManager.swift */; };
 		DCE28A982A75F3BF00C2C8F8 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE28A972A75F3BF00C2C8F8 /* Websocket.swift */; };
 		DCE28A9A2A75FA3900C2C8F8 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE28A992A75FA3900C2C8F8 /* Configuration.swift */; };
+		DCE28A9D2A761B1900C2C8F8 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE28A9C2A761B1900C2C8F8 /* Report.swift */; };
+		DCE28A9F2A7636ED00C2C8F8 /* MyCallList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE28A9E2A7636ED00C2C8F8 /* MyCallList.swift */; };
 		DCE8AC1B2A75390600406CDA /* Wrist Aid.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = DCE8AC1A2A75390600406CDA /* Wrist Aid.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DCE8AC202A75390600406CDA /* watch_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8AC1F2A75390600406CDA /* watch_appApp.swift */; };
 		DCE8AC222A75390600406CDA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8AC212A75390600406CDA /* ContentView.swift */; };
@@ -56,6 +58,8 @@
 		DCC3BAD12A75BAE7009F6488 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		DCE28A972A75F3BF00C2C8F8 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
 		DCE28A992A75FA3900C2C8F8 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		DCE28A9C2A761B1900C2C8F8 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		DCE28A9E2A7636ED00C2C8F8 /* MyCallList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCallList.swift; sourceTree = "<group>"; };
 		DCE8AC142A75390600406CDA /* watch-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "watch-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCE8AC1A2A75390600406CDA /* Wrist Aid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wrist Aid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCE8AC1F2A75390600406CDA /* watch_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watch_appApp.swift; sourceTree = "<group>"; };
@@ -77,6 +81,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DCE28A9B2A761B0800C2C8F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DCE28A9C2A761B1900C2C8F8 /* Report.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		DCE8AC0D2A75390600406CDA = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +109,7 @@
 		DCE8AC1E2A75390600406CDA /* watch-app Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				DCE28A9B2A761B0800C2C8F8 /* Models */,
 				DCE28A972A75F3BF00C2C8F8 /* Websocket.swift */,
 				DCC3BAD02A75B9DC009F6488 /* watch-app-Watch-App-Info.plist */,
 				DC9125212A75866000463A57 /* RecordButton.swift */,
@@ -109,6 +122,7 @@
 				DC2A3B772A7596790053F194 /* Call.swift */,
 				DCC3BAD12A75BAE7009F6488 /* LocationManager.swift */,
 				DCE28A992A75FA3900C2C8F8 /* Configuration.swift */,
+				DCE28A9E2A7636ED00C2C8F8 /* MyCallList.swift */,
 			);
 			path = "watch-app Watch App";
 			sourceTree = "<group>";
@@ -228,10 +242,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC9125222A75866000463A57 /* RecordButton.swift in Sources */,
+				DCE28A9D2A761B1900C2C8F8 /* Report.swift in Sources */,
 				DCE28A982A75F3BF00C2C8F8 /* Websocket.swift in Sources */,
 				DC2A3B782A7596790053F194 /* Call.swift in Sources */,
 				DCE28A9A2A75FA3900C2C8F8 /* Configuration.swift in Sources */,
 				DC2A3B762A75962B0053F194 /* CallList.swift in Sources */,
+				DCE28A9F2A7636ED00C2C8F8 /* MyCallList.swift in Sources */,
 				DCC3BAD22A75BAE7009F6488 /* LocationManager.swift in Sources */,
 				DC33EBC12A754D4C007EEAAD /* AudioRecorder.swift in Sources */,
 				DCE8AC222A75390600406CDA /* ContentView.swift in Sources */,

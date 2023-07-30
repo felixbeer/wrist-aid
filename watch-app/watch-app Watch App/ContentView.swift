@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import SwiftyJSON
 
 struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
-
+    @StateObject private var websocket = Websocket()
+    
+    init() {
+        // self.periodicallyUpdateLocation();
+    }
+    
     var body: some View {
         VStack {
             Group {
@@ -23,10 +29,10 @@ struct ContentView: View {
             .padding(EdgeInsets(top: 11, leading: 11, bottom: 0, trailing: 0))
             
             TabView {
-                CallList()
+                CallList(websocket: websocket)
                     .frame(maxHeight: .infinity)
 
-                CallList()
+                MyCallList(websocket: websocket)
                     .frame(maxHeight: .infinity)
             }.tabViewStyle(.page(indexDisplayMode: .always))
             
@@ -36,6 +42,19 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)
     }
+    
+    /*func periodicallyUpdateLocation() {
+        print("update");
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            let locationMngr = LocationManager()
+            let dataJSON = JSON(["id": 1, "longitude": locationMngr.currentLocation?.coordinate.longitude, "latitude": locationMngr.currentLocation?.coordinate.latitude]);
+            print(dataJSON.stringValue)
+            var json = JSON(["type": WebsocketOutgoingEvents.LocationUpdate]);
+            json["data"] = dataJSON;
+            websocket.sendMessage(json.stringValue);
+            periodicallyUpdateLocation()
+        }
+    }*/
 }
 
 struct ContentView_Previews: PreviewProvider {

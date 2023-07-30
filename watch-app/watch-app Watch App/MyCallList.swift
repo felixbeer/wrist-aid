@@ -7,18 +7,25 @@
 
 import SwiftUI
 
-struct CallList: View {
+struct MyCallList: View {
     @ObservedObject var websocket = Websocket()
     
     var body: some View {
         List (websocket.newReports) { report in
             Call(report: report).listRowInsets(EdgeInsets())
+                .swipeActions {
+                    Button(action:{}) {
+                           Image(systemName: "checkmark")
+                            .font(.system(size: 48))
+                        }
+                        .tint(.green)
+                }
         }
     }
 }
 
-struct CallList_Previews: PreviewProvider {
+struct MyCallList_Previews: PreviewProvider {
     static var previews: some View {
-        CallList()
+        MyCallList()
     }
 }
