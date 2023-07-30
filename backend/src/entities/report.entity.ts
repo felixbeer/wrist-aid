@@ -5,4 +5,5 @@ export class Report {
   @PrimaryGeneratedColumn() id: number;
   @Column() text: string;
   @Column() fileLocation: string;
+  @Column() userId: number;
 }

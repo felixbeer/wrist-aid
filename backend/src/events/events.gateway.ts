@@ -17,20 +17,22 @@ import { User } from '../entities/user.entity';
 
 @WebSocketGateway(3001)
 export class EventsGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-{
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {
+  }
 
-  sendNewReport(report: Report) {
+  async sendNewReport(report: Report) {
+    const user = await this.usersService.getUserById(report.userId);
+
     this.server?.clients.forEach((client: WebSocket) => {
       client.send(
         JSON.stringify({
           event: 'NewReport',
-          data: JSON.stringify(report),
+          data: JSON.stringify({ ...report, ...user }),
         }),
       );
     });
@@ -51,7 +53,8 @@ export class EventsGateway
     await this.usersService.storeUser(user);
   }
 
-  afterInit(server: ws.WebSocketServer): any {}
+  afterInit(server: ws.WebSocketServer): any {
+  }
 
   handleConnection(client: WebSocket, ...args: any[]): any {
     this.clients.push(client);

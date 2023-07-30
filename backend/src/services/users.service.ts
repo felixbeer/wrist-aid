@@ -17,10 +17,14 @@ export class UsersService {
       newUser.id = user.id;
     }
 
-    await this.usersRepository.save(newUser);
+    return await this.usersRepository.save(newUser);
   }
 
   getAllUsers() {
     return this.usersRepository.find();
+  }
+
+  getUserById(id: number) {
+    return this.usersRepository.findOneBy({ id });
   }
 }
