@@ -61,16 +61,16 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         let audioData = try? Data(contentsOf: getFileurl()!)
         if audioData != nil
         {
+            let userId = String(UserDefaults.standard.integer(forKey: "userId"));
             AF.upload(multipartFormData: { (multipartFormData) in
                 multipartFormData.append(audioData!, withName: "file", fileName: fileName, mimeType: "audio/m4a")
-            }, to: Configuration.httpURL+"/remove-noise").responseString { response in
+            }, to: Configuration.httpURL+"/remove-noise/"+userId).responseString { response in
                 if let httpStatusCode = response.response?.statusCode {
                     switch httpStatusCode {
                     case 200:
                         print("Success");
                         break;
                     default:
-                        print("Error");
                         print(response)
                         break;
                         
