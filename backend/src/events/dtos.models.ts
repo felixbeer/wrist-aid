@@ -3,3 +3,7 @@ export interface LocationUpdateDto {
   longitude: number;
   latitude: number;
 }
+
+export interface MissionDoneDto {
+  missionId: number;
+}

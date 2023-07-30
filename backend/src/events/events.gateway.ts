@@ -10,16 +10,15 @@ import {
 } from '@nestjs/websockets';
 import * as ws from 'ws';
 import WebSocket from 'ws';
-import { LocationUpdateDto } from './dtos.models';
+import { LocationUpdateDto, MissionDoneDto } from './dtos.models';
 import { Report } from '../entities/report.entity';
 import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
 import { websocketPort } from '../app.const';
 import { Mission } from '../entities/mission.entity';
-import { ReportService } from '../services/report.service';
-import { forwardRef, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MissionService } from '../services/mission.service';
 
 @WebSocketGateway(websocketPort)
 export class EventsGateway
@@ -29,6 +28,7 @@ export class EventsGateway
   private clients: WebSocket[] = [];
 
   constructor(private readonly usersService: UsersService,
+              private readonly missionService: MissionService,
               @InjectRepository(Report) private readonly reportRepository: Repository<Report>) {
   }
 
@@ -85,6 +85,11 @@ export class EventsGateway
     user.longitude = data.longitude;
     user.latitude = data.latitude;
     await this.usersService.storeUser(user);
+  }
+
+  @SubscribeMessage('MissionDone')
+  async missionDone(@MessageBody() data: MissionDoneDto, @ConnectedSocket() ws: WebSocket) {
+    await this.missionService.markAsDone(data.missionId);
   }
 
   afterInit(server: ws.WebSocketServer): any {

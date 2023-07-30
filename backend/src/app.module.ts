@@ -31,7 +31,7 @@ import { MissionsController } from './missions.controller';
     EntitiesModule,
   ],
   controllers: [AppController, UsersController, ReportsController, MissionsController],
-  providers: [AppService, OpenaiService, TranslationService, AudoAiService, ReportService, MissionService],
+  providers: [AppService, OpenaiService, TranslationService, AudoAiService, ReportService],
 })
 export class AppModule {
 }

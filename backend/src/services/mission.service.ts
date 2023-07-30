@@ -13,18 +13,25 @@ export class MissionService {
   }
 
   getForUser(userId: number) {
-    return this.missionRepository.findOneBy({ userId });
+    return this.missionRepository.findOneBy({ userId, done: false });
   }
 
   async storeMission(mission: Mission) {
     const newMission = new Mission();
     newMission.reportId = mission.reportId;
     newMission.userId = mission.userId;
+    newMission.done = false;
 
     if (newMission.id != 0) {
       newMission.id = mission.id;
     }
 
     return await this.missionRepository.save(newMission);
+  }
+
+  async markAsDone(id: number) {
+    const mission = (await this.missionRepository.findOneBy({ id }))!;
+    mission.done = true;
+    await this.missionRepository.save(mission);
   }
 }
