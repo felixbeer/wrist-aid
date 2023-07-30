@@ -48,8 +48,7 @@ struct ContentView: View {
         print(UserDefaults.standard.integer(forKey: "userId"))
         if(UserDefaults.standard.integer(forKey: "userId") == 0) {
             // TODO: Make role selectable
-            AF.request(Configuration.httpURL + "/user/register", method: .post, parameters: ["role": "Paramedic"], encoding: JSONEncoding.default).responseDecodable(of: Register.self) {response in
-                print(response)
+            AF.request(Configuration.httpURL + "/users/register", method: .post, parameters: ["role": "Paramedic"], encoding: JSONEncoding.default).responseDecodable(of: Register.self) {response in
                 guard let register = response.value else { return }
                 UserDefaults.standard.set(register.id, forKey: "userId");
             }

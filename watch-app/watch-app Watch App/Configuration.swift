@@ -8,6 +8,7 @@
 import Foundation
 
 struct Configuration {
+    // LOCAL
     static let httpURL = "http://localhost:3000/api"
-    static let wsURL = "ws://localhost:3001"
+    static let wsURL = "ws://localhost:3001"    
 }
