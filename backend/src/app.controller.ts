@@ -56,7 +56,7 @@ export class AppController {
     type: FileUploadDto,
   })
   async test(@UploadedFile() file: Express.Multer.File) {
-    return this.openAiService.transcribe(file);
+    return await this.openAiService.transcribe(file);
   }
 
   @Post('translate')
@@ -96,6 +96,6 @@ export class AppController {
       throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
     }
 
-    this.databaseService.storeReport(text);
+    this.databaseService.storeReport(text, '');
   }
 }

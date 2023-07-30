@@ -4,6 +4,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as FormData from 'form-data';
 import { OpenaiService } from './openai.service';
 import * as fs from 'fs';
+import { DatabaseService } from './database.service';
 
 const { Buffer } = require('node:buffer');
 
@@ -30,6 +31,7 @@ export class AudoAiService {
   constructor(
     private configService: ConfigService,
     private openApiService: OpenaiService,
+    private readonly databaseService: DatabaseService,
   ) {
     this.AUDOAI_API_KEY = this.configService.get<string>('AUDOAI_API_KEY')!;
   }
@@ -65,14 +67,14 @@ export class AudoAiService {
     console.log('finished noise removal process:', downloadPath);
 
     const denoisedFile = await this.downloadFile(downloadPath);
+    const filePath = `./uploadedFiles/${new Date().getTime()}.m4a`;
 
-    let writer = fs.createWriteStream(
-      `./uploadedFiles/${new Date().getTime()}.m4a`,
-    );
+    let writer = fs.createWriteStream(filePath);
     writer.write(denoisedFile, 'binary');
 
     let text = await this.openApiService.transcribe(file);
     console.log('Speech to text: ' + text);
+    this.databaseService.storeReport(text, filePath);
 
     return text;
   }

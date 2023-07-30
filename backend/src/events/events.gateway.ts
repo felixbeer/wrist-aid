@@ -6,6 +6,7 @@ import {
 } from '@nestjs/websockets';
 import * as ws from 'ws';
 import WebSocket from 'ws';
+import { LocationUpdateDto } from './dtos.models';
 
 @WebSocketGateway(3001)
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -26,7 +27,7 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   // the 'message' of the socket have to be in the format { "event": "locationUpdate", "data": { ... } }
   // in order to work with @SubscribeMessage
   @SubscribeMessage('locationUpdate')
-  locationUpdate(@MessageBody() data: any, @ConnectedSocket() ws: WebSocket) {
+  locationUpdate(@MessageBody() data: LocationUpdateDto, @ConnectedSocket() ws: WebSocket) {
     console.log(data);
   }
 

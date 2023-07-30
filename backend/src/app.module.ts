@@ -7,6 +7,8 @@ import { TranslationService } from './services/translation.service';
 import { AudoAiService } from './services/audoai.service';
 import { EventsModule } from './events/events.module';
 import { DatabaseService } from './services/database.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Report } from './entities/report.entity';
 
 @Module({
   imports: [
@@ -15,6 +17,11 @@ import { DatabaseService } from './services/database.service';
       envFilePath: '.env',
     }),
     EventsModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      entities: [Report],
+      database: 'reports',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, OpenaiService, TranslationService, AudoAiService, DatabaseService],
