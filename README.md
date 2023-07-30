@@ -12,6 +12,18 @@ AUDOAI_API_KEY=..   // API KEY for the Audo noice-canceling service
 DEEPL_API_KEY=..    // API KEY for the Deepl Translation service (currently optional)
 ```
 
+## Running the application
+### ./backend 
+```
+npm i
+npm run start:dev
+```
+### ./web-app 
+```
+npm i
+npm start
+```
+
 ## WebSockets API
 
 Server Side Messages
@@ -72,7 +84,3 @@ The client should periodically send this event to update his current position
 ## HTTP Api
 
 You can find the swagger documentation of the http endpoint on `localhost:3000/api/swagger` after you started the server.
-
-## Start the server
-
-To start the server you basically have to move into the `backend` folder and run the `npm run start:dev` command. (Maybe you have to run `npm install` to install the required packages)
