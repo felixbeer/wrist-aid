@@ -2,6 +2,16 @@
 
 # Wrist-Aid
 
+## Environment Variables
+
+Create a `.env` file in the `backend` folder and fill in following API KEYS.
+
+```
+OPENAI_API_KEY=...  // API KEY for the OPENAI Services
+AUDOAI_API_KEY=..   // API KEY for the Audo noice-canceling service
+DEEPL_API_KEY=..    // API KEY for the Deepl Translation service (currently optional)
+```
+
 ## WebSockets API
 
 Server Side Messages
@@ -50,3 +60,7 @@ Client Side Events
   latitude: number;
 }
 ```
+
+## HTTP Api
+
+You can find the swagger documentation of the http endpoint on `localhost:3000/api/swagger` after you started the server.
