@@ -15,6 +15,11 @@ import { Report } from '../entities/report.entity';
 import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
 import { websocketPort } from '../app.const';
+import { Mission } from '../entities/mission.entity';
+import { ReportService } from '../services/report.service';
+import { forwardRef, Inject } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @WebSocketGateway(websocketPort)
 export class EventsGateway
@@ -23,7 +28,30 @@ export class EventsGateway
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
 
-  constructor(private readonly usersService: UsersService) {
+  constructor(private readonly usersService: UsersService,
+              @InjectRepository(Report) private readonly reportRepository: Repository<Report>) {
+  }
+
+  async sendNewMission(mission: Mission) {
+    const user = (await this.usersService.getUserById(mission.userId))!;
+    const report = (await this.reportRepository.findOneBy({ id: mission.reportId }))!;
+
+    const message = {
+      ...mission,
+      latitude: user.latitude,
+      longitude: user.latitude,
+      text: report.text,
+      fileLocation: report.fileLocation,
+    };
+
+    this.server?.clients.forEach((client: WebSocket) => {
+      client.send(
+        JSON.stringify({
+          event: 'NewMission',
+          data: JSON.stringify(message),
+        }),
+      );
+    });
   }
 
   async sendNewReport(report: Report) {
@@ -47,9 +75,6 @@ export class EventsGateway
     });
   }
 
-  // as described here: https://stackoverflow.com/questions/67282484/subcribemessage-decorator-doesnt-trigger-on-event-message
-  // the 'message' of the socket have to be in the format { "event": "locationUpdate", "data": { ... } }
-  // in order to work with @SubscribeMessage
   @SubscribeMessage('LocationUpdate')
   async locationUpdate(
     @MessageBody() data: LocationUpdateDto,

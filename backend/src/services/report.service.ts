@@ -23,4 +23,8 @@ export class ReportService {
   getAllReports(): Promise<Report[]> {
     return this.reportRepository.find();
   }
+
+  getById(id: number) {
+    return this.reportRepository.findOneBy({ id });
+  }
 }
