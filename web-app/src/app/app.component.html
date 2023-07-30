@@ -24,22 +24,27 @@
         </div>
       </div>
       <div class='mx-auto w-full max-w-lg lg:w-96 overflow-y-scroll overflow-x-hidden h-full'>
-        <ul cdkDropList cdkDropListSortingDisabled role='list'>
-          <li cdkDrag></li>
-          <li *ngFor='let notification of notificationsData' cdkDrag
-              class='col-span-1 divide-y divide-gray-200 rounded-lg my-1 shadow-lg w-full cursor-pointer'>
+        <ul cdkDropList role='list'>
+          <li (cdkDragEnded)='dragging = false' (cdkDragStarted)='dragging = true'
+              *ngFor='let notification of notificationsData' cdkDrag
+              class='col-span-1 divide-y divide-gray-200 rounded-lg my-1 shadow-lg w-full cursor-grab'>
 
             <app-notification [notification]='notification' />
             <app-notification *cdkDragPlaceholder [notification]='notification' />
             <app-notification-drag-preview *cdkDragPreview [notification]='notification' />
-
           </li>
         </ul>
       </div>
     </div>
   </div>
 
-  <div class='relative w-0 flex-1'>
+
+  <div class='relative w-0 flex-1 z-100'>
     <app-map></app-map>
+    <div #fakeDragAndDropBox (mouseup)='assignMission()'
+         [ngStyle]="{'pointerEvents': dragging ? 'auto' : 'none'}" cdkDropList
+         class='absolute !z-150 block w-[50%] h-[50%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'></div>
   </div>
+
+
 </div>

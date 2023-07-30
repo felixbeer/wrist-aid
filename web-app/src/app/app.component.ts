@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { NotificationItem } from './interfaces/notification';
 
 @Component({
@@ -8,7 +8,8 @@ import { NotificationItem } from './interfaces/notification';
 })
 export class AppComponent {
   title = 'web-app';
-
+  @ViewChild('fakeDragAndDropBox') fakeDragAndDropBox!: ElementRef;
+  dragging = false;
   notificationsData: NotificationItem[] = [
     {
       'time': '2023-07-29 15:35:00',
@@ -65,4 +66,17 @@ export class AppComponent {
       'sender_id': 'EMC345',
     },
   ];
+
+  constructor(private renderer: Renderer2) {
+  }
+
+  assignMission() {
+    console.log('gesgs');
+
+    if (confirm('Are you sure you want to assign this task to ?').valueOf()) {
+
+    } else {
+
+    }
+  }
 }

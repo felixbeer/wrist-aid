@@ -36,7 +36,10 @@ export class AudoAiService {
     this.AUDOAI_API_KEY = this.configService.get<string>('AUDOAI_API_KEY')!;
   }
 
-  async denoiseAudio(file: Express.Multer.File, userid: number): Promise<string> {
+  async denoiseAudio(
+    file: Express.Multer.File,
+    userid: number,
+  ): Promise<string> {
     console.log('');
     console.log('starting noise removal process');
     const fileId = await this.uploadFile(file);
@@ -77,7 +80,7 @@ export class AudoAiService {
     console.log('Speech to text: ' + text);
     await this.databaseService.storeReport(text, filePath, userid);
 
-    return 'text';
+    return text;
   }
 
   private async uploadFile(file: Express.Multer.File): Promise<string> {
@@ -118,7 +121,7 @@ export class AudoAiService {
     const data = {
       input: fileId,
       outputExtension: 'm4a',
-      noiseReductionAmount: 100,
+      noiseReductionAmount: 90^,
     };
 
     return await axios
