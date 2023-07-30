@@ -3,8 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { WsAdapter } from '@nestjs/platform-ws';
-
-const port = 3000;
+import { port, websocketPort } from './app.const';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,4 +22,7 @@ async function bootstrap() {
   await app.listen(port);
 }
 
-bootstrap().then(() => console.log(`NestJs is running on localhost:${port}!`));
+bootstrap().then(() => {
+  console.log(`NestJs is running on localhost:${port}!`);
+  console.log(`WebSocket Server is running on localhost:${websocketPort}!`);
+});

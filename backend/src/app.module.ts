@@ -6,9 +6,13 @@ import { OpenaiService } from './services/openai.service';
 import { TranslationService } from './services/translation.service';
 import { AudoAiService } from './services/audoai.service';
 import { EventsModule } from './events/events.module';
-import { DatabaseService } from './services/database.service';
+import { ReportService } from './services/report.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EntitiesModule } from './entities/entities.module';
+import { MissionService } from './services/mission.service';
+import { UsersController } from './users.controller';
+import { ReportsController } from './reports.controller';
+import { MissionsController } from './missions.controller';
 
 @Module({
   imports: [
@@ -26,8 +30,8 @@ import { EntitiesModule } from './entities/entities.module';
     }),
     EntitiesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, OpenaiService, TranslationService, AudoAiService, DatabaseService],
+  controllers: [AppController, UsersController, ReportsController, MissionsController],
+  providers: [AppService, OpenaiService, TranslationService, AudoAiService, ReportService, MissionService],
 })
 export class AppModule {
 }

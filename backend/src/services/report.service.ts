@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 
 @Injectable()
-export class DatabaseService {
+export class ReportService {
   constructor(private readonly webSocketGateway: EventsGateway,
               @InjectRepository(Report) private readonly reportRepository: Repository<Report>) {
   }

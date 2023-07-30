@@ -19,7 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TranslationService } from './services/translation.service';
-import { DatabaseService } from './services/database.service';
+import { ReportService } from './services/report.service';
 import { AudoAiService } from './services/audoai.service';
 import { Report } from './entities/report.entity';
 import { User } from './entities/user.entity';
@@ -33,11 +33,6 @@ export class TranslationDto {
 export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
   file: Express.Multer.File;
-}
-
-export class UserRegisterDto {
-  @ApiProperty({ type: String })
-  role: string;
 }
 
 export class SendReportTestDto {
@@ -54,8 +49,6 @@ export class AppController {
     private readonly openAiService: OpenaiService,
     private readonly translationService: TranslationService,
     private readonly audoAiService: AudoAiService,
-    private readonly databaseService: DatabaseService,
-    private readonly usersService: UsersService,
   ) {
   }
 
@@ -71,7 +64,7 @@ export class AppController {
     description: 'audio file to transcribe',
     type: FileUploadDto,
   })
-  async test(@UploadedFile() file: Express.Multer.File) {
+  async transcribe(@UploadedFile() file: Express.Multer.File) {
     return await this.openAiService.transcribe(file);
   }
 
@@ -100,48 +93,5 @@ export class AppController {
   removeNoise(@Param('userid', ParseIntPipe) userid: number, @UploadedFile() file: Express.Multer.File) {
     this.audoAiService.denoiseAudio(file, userid);
     return 'Your audio is being processed.';
-  }
-
-  @Post('newReportTest')
-  @ApiBody({
-    type: SendReportTestDto,
-  })
-  @ApiOkResponse()
-  @ApiBadRequestResponse()
-  async sendReportTest(@Body('userid', ParseIntPipe) userid: number, @Body('text') text?: string) {
-    if (!text) {
-      throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
-    }
-
-    await this.databaseService.storeReport(text, '/tmp', userid);
-  }
-
-  @Get('reports')
-  @ApiOkResponse({
-    type: Array<Report>,
-  })
-  async allReports(): Promise<Report[]> {
-    return await this.databaseService.getAllReports();
-  }
-
-  @Get('users')
-  @ApiOkResponse({
-    type: Array<User>,
-  })
-  async allUsers(): Promise<User[]> {
-    return await this.usersService.getAllUsers();
-  }
-
-  @Post('user/register')
-  @ApiBody({
-    description: 'user specific data',
-    type: UserRegisterDto,
-  })
-  async register(userRegisterDto: UserRegisterDto) {
-    let user = new User();
-    user.latitude = 0;
-    user.longitude = 0;
-    user = await this.usersService.storeUser(user);
-    return { id: user.id };
   }
 }

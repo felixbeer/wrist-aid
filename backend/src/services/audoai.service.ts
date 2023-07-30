@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as FormData from 'form-data';
 import { OpenaiService } from './openai.service';
 import * as fs from 'fs';
-import { DatabaseService } from './database.service';
+import { ReportService } from './report.service';
 
 import { Buffer } from 'node:buffer';
 
@@ -31,7 +31,7 @@ export class AudoAiService {
   constructor(
     private configService: ConfigService,
     private openApiService: OpenaiService,
-    private readonly databaseService: DatabaseService,
+    private readonly databaseService: ReportService,
   ) {
     this.AUDOAI_API_KEY = this.configService.get<string>('AUDOAI_API_KEY')!;
   }

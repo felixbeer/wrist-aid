@@ -14,8 +14,9 @@ import { LocationUpdateDto } from './dtos.models';
 import { Report } from '../entities/report.entity';
 import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
+import { websocketPort } from '../app.const';
 
-@WebSocketGateway(3001)
+@WebSocketGateway(websocketPort)
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -27,12 +28,15 @@ export class EventsGateway
 
   async sendNewReport(report: Report) {
     const user = await this.usersService.getUserById(report.userId);
+    let message = { ...report, userId: user!.id };
+    delete user!.id;
+    message = { ...message, ...user };
 
     this.server?.clients.forEach((client: WebSocket) => {
       client.send(
         JSON.stringify({
           event: 'NewReport',
-          data: JSON.stringify({ ...report, ...user }),
+          data: JSON.stringify(message),
         }),
       );
     });
