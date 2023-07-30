@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
+  TAILWIND_MODE: 'build',
   mapbox: {
-    accessToken: ''
-  }
+    accessToken: 'pk.eyJ1IjoiZ3JpenpseWJlZXIiLCJhIjoiY2xrbzRmM2xmMGx6YzNodGVqcm8zNHpncSJ9.eRX2fXqrp8JmdsZfc8JJyA',
+  },
 };
 
 /*

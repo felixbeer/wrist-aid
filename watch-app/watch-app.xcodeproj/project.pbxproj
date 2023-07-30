@@ -13,6 +13,7 @@
 		DC91251D2A7574ED00463A57 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DC91251C2A7574ED00463A57 /* Alamofire */; };
 		DC9125202A75753900463A57 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DC91251F2A75753900463A57 /* SwiftyJSON */; };
 		DC9125222A75866000463A57 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9125212A75866000463A57 /* RecordButton.swift */; };
+		DCC3BAD22A75BAE7009F6488 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC3BAD12A75BAE7009F6488 /* LocationManager.swift */; };
 		DCE8AC1B2A75390600406CDA /* Wrist Aid.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = DCE8AC1A2A75390600406CDA /* Wrist Aid.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DCE8AC202A75390600406CDA /* watch_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8AC1F2A75390600406CDA /* watch_appApp.swift */; };
 		DCE8AC222A75390600406CDA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE8AC212A75390600406CDA /* ContentView.swift */; };
@@ -49,6 +50,8 @@
 		DC2A3B772A7596790053F194 /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
 		DC33EBC02A754D4C007EEAAD /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		DC9125212A75866000463A57 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		DCC3BAD02A75B9DC009F6488 /* watch-app-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "watch-app-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DCC3BAD12A75BAE7009F6488 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		DCE8AC142A75390600406CDA /* watch-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "watch-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCE8AC1A2A75390600406CDA /* Wrist Aid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wrist Aid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCE8AC1F2A75390600406CDA /* watch_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = watch_appApp.swift; sourceTree = "<group>"; };
@@ -90,6 +93,7 @@
 		DCE8AC1E2A75390600406CDA /* watch-app Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				DCC3BAD02A75B9DC009F6488 /* watch-app-Watch-App-Info.plist */,
 				DC9125212A75866000463A57 /* RecordButton.swift */,
 				DCE8AC1F2A75390600406CDA /* watch_appApp.swift */,
 				DCE8AC212A75390600406CDA /* ContentView.swift */,
@@ -98,6 +102,7 @@
 				DCE8AC252A75390700406CDA /* Preview Content */,
 				DC2A3B752A75962B0053F194 /* CallList.swift */,
 				DC2A3B772A7596790053F194 /* Call.swift */,
+				DCC3BAD12A75BAE7009F6488 /* LocationManager.swift */,
 			);
 			path = "watch-app Watch App";
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				DC9125222A75866000463A57 /* RecordButton.swift in Sources */,
 				DC2A3B782A7596790053F194 /* Call.swift in Sources */,
 				DC2A3B762A75962B0053F194 /* CallList.swift in Sources */,
+				DCC3BAD22A75BAE7009F6488 /* LocationManager.swift in Sources */,
 				DC33EBC12A754D4C007EEAAD /* AudioRecorder.swift in Sources */,
 				DCE8AC222A75390600406CDA /* ContentView.swift in Sources */,
 				DCE8AC202A75390600406CDA /* watch_appApp.swift in Sources */,
@@ -356,6 +362,8 @@
 				DEVELOPMENT_TEAM = AV49LHUWT3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "watch-app-Watch-App-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This is used for the map, to guide the user to the target";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone stream is sent to the dispatcher";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -386,6 +394,8 @@
 				DEVELOPMENT_TEAM = AV49LHUWT3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "watch-app-Watch-App-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This is used for the map, to guide the user to the target";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The microphone stream is sent to the dispatcher";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
