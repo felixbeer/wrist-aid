@@ -28,9 +28,14 @@ export class EventsGateway
 
   async sendNewReport(report: Report) {
     const user = await this.usersService.getUserById(report.userId);
-    let message = { ...report, userId: user!.id };
-    delete user!.id;
-    message = { ...message, ...user };
+    let message = {
+      reportId: report.id,
+      fileLocation: report.fileLocation,
+      text: report.text,
+      userId: user!.id,
+      longitude: user!.longitude,
+      latitude: user!.latitude,
+    };
 
     this.server?.clients.forEach((client: WebSocket) => {
       client.send(
