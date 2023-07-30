@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   HttpException,
-  HttpStatus,
+  HttpStatus, Param, ParseIntPipe,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -14,7 +14,7 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
-  ApiOkResponse, ApiProduces,
+  ApiOkResponse, ApiParam, ApiProduces,
   ApiProperty,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -33,6 +33,18 @@ export class TranslationDto {
 export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
   file: Express.Multer.File;
+}
+
+export class UserRegisterDto {
+  @ApiProperty({ type: String })
+  role: string;
+}
+
+export class SendReportTestDto {
+  @ApiProperty({ type: Number })
+  userid: number;
+  @ApiProperty({ type: String })
+  text: string;
 }
 
 @Controller()
@@ -77,30 +89,31 @@ export class AppController {
     return await this.translationService.translate(text);
   }
 
-  @Post('remove-noise')
+  @Post('remove-noise/:userid')
   @UseInterceptors(FileInterceptor('file'))
+  @ApiParam({ name: 'userid' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: 'audio file to transcribe',
     type: FileUploadDto,
   })
-  removeNoise(@UploadedFile() file: Express.Multer.File) {
-    this.audoAiService.denoiseAudio(file);
+  removeNoise(@Param('userid', ParseIntPipe) userid: number, @UploadedFile() file: Express.Multer.File) {
+    this.audoAiService.denoiseAudio(file, userid);
     return 'Your audio is being processed.';
   }
 
   @Post('newReportTest')
   @ApiBody({
-    type: TranslationDto,
+    type: SendReportTestDto,
   })
   @ApiOkResponse()
   @ApiBadRequestResponse()
-  async sendReportTest(@Body('text') text?: string) {
+  async sendReportTest(@Body('userid', ParseIntPipe) userid: number, @Body('text') text?: string) {
     if (!text) {
       throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
     }
 
-    await this.databaseService.storeReport(text, '/tmp');
+    await this.databaseService.storeReport(text, '/tmp', userid);
   }
 
   @Get('reports')
@@ -117,5 +130,18 @@ export class AppController {
   })
   async allUsers(): Promise<User[]> {
     return await this.usersService.getAllUsers();
+  }
+
+  @Post('user/register')
+  @ApiBody({
+    description: 'user specific data',
+    type: UserRegisterDto,
+  })
+  async register(userRegisterDto: UserRegisterDto) {
+    let user = new User();
+    user.latitude = 0;
+    user.longitude = 0;
+    user = await this.usersService.storeUser(user);
+    return { id: user.id };
   }
 }

@@ -11,12 +11,13 @@ export class DatabaseService {
               @InjectRepository(Report) private readonly reportRepository: Repository<Report>) {
   }
 
-  async storeReport(reportText: string, fileLocation: string) {
+  async storeReport(reportText: string, fileLocation: string, userid: number) {
     const report = new Report();
     report.text = reportText;
     report.fileLocation = fileLocation;
+    report.userId = userid;
     await this.reportRepository.save(report);
-    this.webSocketGateway.sendNewReport(report);
+    await this.webSocketGateway.sendNewReport(report);
   }
 
   getAllReports(): Promise<Report[]> {
