@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as FormData from 'form-data';
-import { OpenaiService } from './openai.service';
 import * as fs from 'fs';
+import { OpenaiService } from './openai.service';
 import { ReportService } from './report.service';
 
 import { Buffer } from 'node:buffer';
@@ -121,7 +121,7 @@ export class AudoAiService {
     const data = {
       input: fileId,
       outputExtension: 'm4a',
-      noiseReductionAmount: 90^,
+      noiseReductionAmount: 90,
     };
 
     return await axios
