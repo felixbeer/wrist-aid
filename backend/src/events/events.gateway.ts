@@ -12,8 +12,6 @@ import * as ws from 'ws';
 import WebSocket from 'ws';
 import { LocationUpdateDto } from './dtos.models';
 import { Report } from '../entities/report.entity';
-import { DatabaseService } from '../services/database.service';
-import { forwardRef, Inject } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
 
@@ -25,15 +23,16 @@ export class EventsGateway
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
 
-  constructor(private readonly usersService: UsersService) {
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   sendNewReport(report: Report) {
     this.server?.clients.forEach((client: WebSocket) => {
-      client.send(JSON.stringify({
-        event: 'NewReport',
-        data: JSON.stringify(report),
-      }));
+      client.send(
+        JSON.stringify({
+          event: 'NewReport',
+          data: JSON.stringify(report),
+        }),
+      );
     });
   }
 
@@ -41,7 +40,10 @@ export class EventsGateway
   // the 'message' of the socket have to be in the format { "event": "locationUpdate", "data": { ... } }
   // in order to work with @SubscribeMessage
   @SubscribeMessage('LocationUpdate')
-  async locationUpdate(@MessageBody() data: LocationUpdateDto, @ConnectedSocket() ws: WebSocket) {
+  async locationUpdate(
+    @MessageBody() data: LocationUpdateDto,
+    @ConnectedSocket() ws: WebSocket,
+  ) {
     const user = new User();
     user.id = data.id;
     user.longitude = data.longitude;
