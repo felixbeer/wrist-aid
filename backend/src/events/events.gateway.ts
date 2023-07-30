@@ -22,7 +22,8 @@ import { MissionService } from '../services/mission.service';
 
 @WebSocketGateway(websocketPort)
 export class EventsGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
