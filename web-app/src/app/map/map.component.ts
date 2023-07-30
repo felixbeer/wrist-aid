@@ -1,6 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { PopupComponent } from '../components/map-pin/popup.component';
+import { createCustomElement } from '@angular/elements';
+import { PopupService } from '../components/map-pin/popup.service';
 
 
 @Component({
@@ -113,7 +116,7 @@ export class MapComponent implements OnInit {
     // Add more marker data as needed
   ];
 
-  constructor(public changeRef: ChangeDetectorRef) {
+  constructor(public injector: Injector, public popup: PopupService, public changeRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -147,9 +150,14 @@ export class MapComponent implements OnInit {
         }
       }
 
-      const marker = new mapboxgl.Marker(el)
+      const PopupElement = createCustomElement(PopupComponent, { injector: this.injector });
+
+      const key = Math.random().toString().slice(2, 12);
+      customElements.define('popup-element-' + key, PopupElement);
+
+      new mapboxgl.Marker(el)
         .setLngLat(markerData.lngLat)
-        .setPopup(new mapboxgl.Popup().setHTML(`<h1>${markerData.role}</h1><p>Capacity: ${markerData.capacity}</p>`))
+        .setPopup(new mapboxgl.Popup().setDOMContent(this.popup.showAsElement('tests', key)))
         .addTo(map);
     });
   }
@@ -194,7 +202,7 @@ export class MapComponent implements OnInit {
     ];
 
     pointsData.forEach(point => {
-      const marker = new mapboxgl.Marker()
+      new mapboxgl.Marker()
         .setLngLat(point.coordinates as [number, number])
         .setPopup(new mapboxgl.Popup().setText(point.name))
         .addTo(map);

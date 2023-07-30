@@ -1,8 +1,12 @@
 import {
   ConnectedSocket,
-  MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit,
+  MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  OnGatewayInit,
   SubscribeMessage,
-  WebSocketGateway, WebSocketServer,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import * as ws from 'ws';
 import WebSocket from 'ws';
@@ -14,7 +18,9 @@ import { UsersService } from '../services/users.service';
 import { User } from '../entities/user.entity';
 
 @WebSocketGateway(3001)
-export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class EventsGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
@@ -43,15 +49,13 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     await this.usersService.storeUser(user);
   }
 
-  afterInit(server: ws.WebSocketServer): any {
-
-  }
+  afterInit(server: ws.WebSocketServer): any {}
 
   handleConnection(client: WebSocket, ...args: any[]): any {
     this.clients.push(client);
   }
 
   handleDisconnect(client: WebSocket): any {
-    this.clients = this.clients.filter(ws => ws !== client);
+    this.clients = this.clients.filter((ws) => ws !== client);
   }
 }

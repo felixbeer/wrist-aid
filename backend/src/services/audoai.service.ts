@@ -6,7 +6,7 @@ import { OpenaiService } from './openai.service';
 import * as fs from 'fs';
 import { DatabaseService } from './database.service';
 
-const { Buffer } = require('node:buffer');
+import { Buffer } from 'node:buffer';
 
 enum JobStatusState {
   DOWNLOADING = 'downloading',
@@ -70,13 +70,14 @@ export class AudoAiService {
     const filePath = `./uploadedFiles/${new Date().getTime()}.m4a`;
 
     let writer = fs.createWriteStream(filePath);
-    writer.write(denoisedFile, 'binary');
+
+    writer.write(denoisedFile);
 
     let text = await this.openApiService.transcribe(file);
     console.log('Speech to text: ' + text);
     await this.databaseService.storeReport(text, filePath);
 
-    return text;
+    return 'text';
   }
 
   private async uploadFile(file: Express.Multer.File): Promise<string> {
@@ -116,7 +117,7 @@ export class AudoAiService {
 
     const data = {
       input: fileId,
-      outputExtension: '.m4a',
+      outputExtension: 'm4a',
       noiseReductionAmount: 100,
     };
 
@@ -155,15 +156,15 @@ export class AudoAiService {
   private async downloadFile(downloadPath: string): Promise<any> {
     const options: AxiosRequestConfig = {
       headers: {
-        'Content-Type': 'application/octet-stream',
         'x-api-key': this.AUDOAI_API_KEY,
       },
+      responseType: 'arraybuffer',
     };
 
     return await axios
       .get(`https://api.audo.ai/v1${downloadPath}`, options)
       .then(
-        (response: AxiosResponse) => {
+        (response: AxiosResponse<Buffer>) => {
           return Buffer.from(response.data);
         },
         (error) => {
