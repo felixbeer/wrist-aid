@@ -1,5 +1,5 @@
 export interface LocationUpdateDto {
-  // TODO: wahrscheinlich nu irgendwie a userID
+  id: number; // des is ziemlich sicher de user id
   longitude: number;
   latitude: number;
 }

@@ -8,6 +8,10 @@ import * as ws from 'ws';
 import WebSocket from 'ws';
 import { LocationUpdateDto } from './dtos.models';
 import { Report } from '../entities/report.entity';
+import { DatabaseService } from '../services/database.service';
+import { forwardRef, Inject } from '@nestjs/common';
+import { UsersService } from '../services/users.service';
+import { User } from '../entities/user.entity';
 
 @WebSocketGateway(3001)
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -15,10 +19,13 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
 
+  constructor(private readonly usersService: UsersService) {
+  }
+
   sendNewReport(report: Report) {
     this.server?.clients.forEach((client: WebSocket) => {
       client.send(JSON.stringify({
-        type: 'NewReport',
+        event: 'NewReport',
         data: JSON.stringify(report),
       }));
     });
@@ -27,9 +34,13 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   // as described here: https://stackoverflow.com/questions/67282484/subcribemessage-decorator-doesnt-trigger-on-event-message
   // the 'message' of the socket have to be in the format { "event": "locationUpdate", "data": { ... } }
   // in order to work with @SubscribeMessage
-  @SubscribeMessage('locationUpdate')
-  locationUpdate(@MessageBody() data: LocationUpdateDto, @ConnectedSocket() ws: WebSocket) {
-    console.log(data);
+  @SubscribeMessage('LocationUpdate')
+  async locationUpdate(@MessageBody() data: LocationUpdateDto, @ConnectedSocket() ws: WebSocket) {
+    const user = new User();
+    user.id = data.id;
+    user.longitude = data.longitude;
+    user.latitude = data.latitude;
+    await this.usersService.storeUser(user);
   }
 
   afterInit(server: ws.WebSocketServer): any {

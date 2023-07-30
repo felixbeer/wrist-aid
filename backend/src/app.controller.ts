@@ -22,6 +22,8 @@ import { TranslationService } from './services/translation.service';
 import { DatabaseService } from './services/database.service';
 import { AudoAiService } from './services/audoai.service';
 import { Report } from './entities/report.entity';
+import { User } from './entities/user.entity';
+import { UsersService } from './services/users.service';
 
 export class TranslationDto {
   @ApiProperty({ type: String })
@@ -41,6 +43,7 @@ export class AppController {
     private readonly translationService: TranslationService,
     private readonly audoAiService: AudoAiService,
     private readonly databaseService: DatabaseService,
+    private readonly usersService: UsersService,
   ) {
   }
 
@@ -106,5 +109,13 @@ export class AppController {
   })
   async allReports(): Promise<Report[]> {
     return await this.databaseService.getAllReports();
+  }
+
+  @Get('users')
+  @ApiOkResponse({
+    type: Array<User>,
+  })
+  async allUsers(): Promise<User[]> {
+    return await this.usersService.getAllUsers();
   }
 }
