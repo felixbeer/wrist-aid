@@ -63,7 +63,7 @@ The client should periodically send this event to update his current position
 
 ```javascript
 {
-  id: number; // die id des users der seine aktuelle postion sendet
+  id: number; // the id of the user who sends his current position
   longitude: number;
   latitude: number;
 }
