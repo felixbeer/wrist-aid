@@ -14,13 +14,14 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
-  ApiOkResponse,
+  ApiOkResponse, ApiProduces,
   ApiProperty,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TranslationService } from './services/translation.service';
 import { DatabaseService } from './services/database.service';
 import { AudoAiService } from './services/audoai.service';
+import { Report } from './entities/report.entity';
 
 export class TranslationDto {
   @ApiProperty({ type: String })
@@ -91,11 +92,19 @@ export class AppController {
   })
   @ApiOkResponse()
   @ApiBadRequestResponse()
-  sendReportTest(@Body('text') text?: string) {
+  async sendReportTest(@Body('text') text?: string) {
     if (!text) {
       throw new HttpException('Text was not defined', HttpStatus.BAD_REQUEST);
     }
 
-    this.databaseService.storeReport(text, '');
+    await this.databaseService.storeReport(text, '/tmp');
+  }
+
+  @Get('reports')
+  @ApiOkResponse({
+    type: Array<Report>,
+  })
+  async allReports(): Promise<Report[]> {
+    return await this.databaseService.getAllReports();
   }
 }

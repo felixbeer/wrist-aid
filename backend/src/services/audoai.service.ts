@@ -74,7 +74,7 @@ export class AudoAiService {
 
     let text = await this.openApiService.transcribe(file);
     console.log('Speech to text: ' + text);
-    this.databaseService.storeReport(text, filePath);
+    await this.databaseService.storeReport(text, filePath);
 
     return text;
   }

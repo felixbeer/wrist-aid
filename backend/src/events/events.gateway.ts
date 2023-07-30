@@ -7,6 +7,7 @@ import {
 import * as ws from 'ws';
 import WebSocket from 'ws';
 import { LocationUpdateDto } from './dtos.models';
+import { Report } from '../entities/report.entity';
 
 @WebSocketGateway(3001)
 export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -14,11 +15,11 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   private server?: ws.WebSocketServer;
   private clients: WebSocket[] = [];
 
-  sendNewReport(text: string) {
+  sendNewReport(report: Report) {
     this.server?.clients.forEach((client: WebSocket) => {
       client.send(JSON.stringify({
         type: 'NewReport',
-        data: JSON.stringify({ text }),
+        data: JSON.stringify(report),
       }));
     });
   }
